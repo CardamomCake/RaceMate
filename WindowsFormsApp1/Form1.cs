@@ -27,12 +27,6 @@ namespace WindowsFormsApp1
 
 {
 
-    public class MyData
-    {
-        public string Name { get; set; }
-        public int Age { get; set; }
-    }
-
     public partial class Form1 : Form
 
     {
@@ -52,11 +46,14 @@ namespace WindowsFormsApp1
         public Form1()
         {
             InitializeComponent();
+            this.Text = "RaceMate";
+
+            //this.SizeChanged += Form1_SizeChanged;
 
             System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-            timer.Interval = 100; // Set the interval in milliseconds (e.g., 1000 ms = 1 second)
-            timer.Tick += Timer_Tick; // Subscribe to the Tick event
-            timer.Start(); // Start the timer
+            timer.Interval = 100; 
+            timer.Tick += Timer_Tick; 
+            timer.Start(); 
         }   
         
 
@@ -66,6 +63,13 @@ namespace WindowsFormsApp1
             textBox1.Text = "Race name";
             textBox4.Text = "Author name";
         }
+        //private void Form1_SizeChanged(object sender, EventArgs e)
+        //{
+        //    textBox5.Height =this.Height - 30; 
+        //    textBox1.Height = this.Height - 100; 
+        //}
+
+
 
         // this button is for loading from clipboard
         private void button1_Click(object sender, EventArgs e)
@@ -80,12 +84,15 @@ namespace WindowsFormsApp1
             {
                 jObject = JObject.Parse(clipboardstring);
             }
-            catch (JsonReaderException ex)
+            catch 
             {
-                MessageBox.Show("Invalid JSON format:\n");
+                MessageBox.Show("Invalid JSON format.");
                 return;
             }
             JArray checkpointsArray = (JArray)jObject["checkpoints"];
+            JArray boostArray = (JArray)jObject["modifiers"];
+            JArray billboardArray = (JArray)jObject["billboards"];
+
 
             string name = (string)jObject["name"];
             textBox1.Text = name;
@@ -97,9 +104,12 @@ namespace WindowsFormsApp1
                 return;
             }
 
+
+
             foreach (JObject checkpoint in checkpointsArray)
             {
                 string[] row = {
+                                "ChP",
                                 (string)checkpoint["type"],
                                 (string)checkpoint["position"]["x"],
                                 (string)checkpoint["position"]["y"],
@@ -119,6 +129,54 @@ namespace WindowsFormsApp1
 
                 dataGridView1.Rows.Add(row);
             }
+
+            foreach (JObject boost in boostArray)
+            {
+                string[] row = {
+                                "Bst",
+                                (string)boost["boostTrailLengthMeters"],
+                                (string)boost["position"]["x"],
+                                (string)boost["position"]["y"],
+                                (string)boost["position"]["z"],
+                                (string)boost["rotation"]["x"],
+                                (string)boost["rotation"]["y"],
+                                (string)boost["rotation"]["z"]
+                };
+
+                for (int i = 0; i < row.Length; i++)
+                {
+                    if (row[i] == null)
+                    {
+                        row[i] = "0";
+                    }
+                }
+
+                dataGridView1.Rows.Add(row);
+            }
+
+            //foreach (JObject billboard in billboardArray)
+            //{
+            //    string[] row = {
+            //                    "BlB",
+            //                    (string)billboard["type"],
+            //                    (string)billboard["position"]["x"],
+            //                    (string)billboard["position"]["y"],
+            //                    (string)billboard["position"]["z"],
+            //                    (string)billboard["rotation"]["x"],
+            //                    (string)billboard["rotation"]["y"],
+            //                    (string)billboard["rotation"]["z"]
+            //    };
+
+            //    for (int i = 0; i < row.Length; i++)
+            //    {
+            //        if (row[i] == null)
+            //        {
+            //            row[i] = "0";
+            //        }
+            //    }
+
+            //    dataGridView1.Rows.Add(row);
+            //}
 
         }
 
@@ -140,9 +198,9 @@ namespace WindowsFormsApp1
             {
                 jObject = JObject.Parse(savedString);
             }
-            catch (JsonReaderException ex)
+            catch 
             {
-                MessageBox.Show("No valid file to save to clipboard:\n");
+                MessageBox.Show("No valid file to save to clipboard.");
                 return;
             }
             jObject["name"] = textBox1.Text;
@@ -150,11 +208,14 @@ namespace WindowsFormsApp1
             jObject["gameType"] = "Time Trial";
 
             jObject.Remove("checkpoints");
+            jObject.Remove("modifiers");
             savedString =  rebuildJson(jObject, dataGridView1);
 
             Clipboard.SetText(savedString);
 
         }
+
+
 
         // This button is for adding a checkpoint
         private void button3_Click_1(object sender, EventArgs e)
@@ -171,7 +232,9 @@ namespace WindowsFormsApp1
                 return;
             }
 
-            string[] newRow = {"1" ,
+            string[] newRow = {
+                "ChP",
+                "1",
                 textBox5.Text,
                 textBox6.Text,
                 textBox7.Text,
@@ -183,7 +246,40 @@ namespace WindowsFormsApp1
             
         }
 
-        //Button to remove clossest
+
+
+        // This button is for adding a checkpoint
+        private void button7_Click_1(object sender, EventArgs e)
+        {
+            if (textBox3.Text == "")
+            {
+                MessageBox.Show("No json level in memory, please load a json scene.");
+                return;
+            }
+
+            if (textBox5.Text == "" || textBox5.Text == "" || textBox5.Text == "" || textBox5.Text == "" || textBox5.Text == "" || textBox5.Text == "")
+            {
+                MessageBox.Show("No live location recorded, please check if game is running and that telemetry is enabled under integration in settings.");
+                return;
+            }
+
+            string[] newRow = {
+                "Bst",
+                "3000",
+                textBox5.Text,
+                textBox6.Text,
+                textBox7.Text,
+                textBox8.Text,
+                textBox9.Text,
+                textBox10.Text};
+
+            dataGridView1.Rows.Add(newRow);
+
+        }
+
+
+
+        //Button to remove clossest object
         private void button4_Click_1(object sender, EventArgs e)
         {
             if (textBox5.Text == "" || textBox5.Text == "" || textBox5.Text == "" || textBox5.Text == "" || textBox5.Text == "" || textBox5.Text == "")
@@ -201,9 +297,9 @@ namespace WindowsFormsApp1
             int smallest_i = 0;
             for (int i = 1; i < dataGridView1.RowCount-1; i++)
             {
-                double distx = double.Parse(dataGridView1.Rows[i].Cells[1].Value.ToString()) - x_pos;
-                double disty = double.Parse(dataGridView1.Rows[i].Cells[2].Value.ToString()) - y_pos;
-                double distz = double.Parse(dataGridView1.Rows[i].Cells[3].Value.ToString()) - z_pos;
+                double distx = double.Parse(dataGridView1.Rows[i].Cells[2].Value.ToString()) - x_pos;
+                double disty = double.Parse(dataGridView1.Rows[i].Cells[3].Value.ToString()) - y_pos;
+                double distz = double.Parse(dataGridView1.Rows[i].Cells[4].Value.ToString()) - z_pos;
 
                 dist = Math.Sqrt(distx*distx + disty * disty + distz * distz);
                 if (dist < smallest_dist)
@@ -215,11 +311,13 @@ namespace WindowsFormsApp1
 
             }
 
-            dataGridView1.Rows.RemoveAt(smallest_i);//.Cells[0].Value = "d";
+            dataGridView1.Rows.RemoveAt(smallest_i);
             Console.WriteLine(smallest_dist);
         }
 
-        //Button to remove selected
+
+
+        //Button to remove selected object
         private void button6_Click_1(object sender, EventArgs e)
         {
             DataGridViewSelectedRowCollection selectedRows = dataGridView1.SelectedRows;
@@ -234,6 +332,7 @@ namespace WindowsFormsApp1
                 }
             }
         }
+
 
 
         // This button is for saving to a file 
@@ -252,7 +351,7 @@ namespace WindowsFormsApp1
             {
                 jObject = JObject.Parse(savedString);
             }
-            catch (JsonReaderException ex)
+            catch 
             {
                 MessageBox.Show("No valid file to save:\n");
                 return;
@@ -261,11 +360,11 @@ namespace WindowsFormsApp1
             jObject["name"] = textBox1.Text;
             jObject["author"] = textBox4.Text;
             jObject["gameType"] = "Time Trial";
-            jObject.Remove("checkpoints");
 
+            jObject.Remove("checkpoints");
+            jObject.Remove("modifiers");
             savedString = rebuildJson(jObject, dataGridView1);
 
-            //Clipboard.SetText(JObject.Parse(savedString).ToString());//Just for clean formating
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.FileName = (textBox1.Text +".json");
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -275,21 +374,24 @@ namespace WindowsFormsApp1
         }
 
 
-        private string rebuildJson(JObject jObject, DataGridView dataGridView1 )
+        private string rebuildJson(JObject jObject, DataGridView dataGridView1)
         {
             String Checkpoints = "\n  \"checkpoints\": [";
 
             for (int i = 0; i < dataGridView1.RowCount - 1; i++)
             {
-                string type = dataGridView1.Rows[i].Cells[0].Value.ToString();
-                string posX = dataGridView1.Rows[i].Cells[1].Value.ToString();
-                string posY = dataGridView1.Rows[i].Cells[2].Value.ToString();
-                string posZ = dataGridView1.Rows[i].Cells[3].Value.ToString();
-                string rotX = dataGridView1.Rows[i].Cells[4].Value.ToString();
-                string rotY = dataGridView1.Rows[i].Cells[5].Value.ToString();
-                string rotZ = dataGridView1.Rows[i].Cells[6].Value.ToString();
+                if (dataGridView1.Rows[i].Cells[0].Value.ToString() == "ChP")
+                {
 
-                string checkpoint = $@"
+                    string type = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                    string posX = dataGridView1.Rows[i].Cells[2].Value.ToString();
+                    string posY = dataGridView1.Rows[i].Cells[3].Value.ToString();
+                    string posZ = dataGridView1.Rows[i].Cells[4].Value.ToString();
+                    string rotX = dataGridView1.Rows[i].Cells[5].Value.ToString();
+                    string rotY = dataGridView1.Rows[i].Cells[6].Value.ToString();
+                    string rotZ = dataGridView1.Rows[i].Cells[7].Value.ToString();
+
+                    string checkpoint = $@"
     {{
       ""type"": {type},
       ""position"": {{
@@ -303,21 +405,60 @@ namespace WindowsFormsApp1
         ""z"": {rotZ}
       }}
     }},";
-                Checkpoints = Checkpoints + checkpoint;
+                    Checkpoints = Checkpoints + checkpoint;
+                }
             }
             Checkpoints = Checkpoints.Substring(0, Checkpoints.Length - 1);
-            Checkpoints = Checkpoints + "\n]\n}";
+            Checkpoints = Checkpoints + "\n  ]";
+            
+
+
+            String Boosts = "\n  \"modifiers\": [";
+
+
+            for (int i = 0; i < dataGridView1.RowCount - 1; i++)
+            {
+                if (dataGridView1.Rows[i].Cells[0].Value.ToString() == "Bst")
+                {
+                    string value = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                    string posX = dataGridView1.Rows[i].Cells[2].Value.ToString();
+                    string posY = dataGridView1.Rows[i].Cells[3].Value.ToString();
+                    string posZ = dataGridView1.Rows[i].Cells[4].Value.ToString();
+                    string rotX = dataGridView1.Rows[i].Cells[5].Value.ToString();
+                    string rotY = dataGridView1.Rows[i].Cells[6].Value.ToString();
+                    string rotZ = dataGridView1.Rows[i].Cells[7].Value.ToString();
+
+                    string boost = $@"
+    {{
+      ""position"": {{
+        ""x"": {posX},
+        ""y"": {posY},
+        ""z"": {posZ}
+      }},
+      ""rotation"": {{
+        ""x"": {rotX},
+        ""y"": {rotY},
+        ""z"": {rotZ}
+      }},
+      ""type"": ""Boost"",
+      ""boostTrailLengthMeters"": {value}
+    }},";
+                    Boosts = Boosts + boost;
+                }
+            }
+            Boosts = Boosts.Substring(0, Boosts.Length - 1);
+            Boosts = Boosts + "\n  ]";
 
 
             string savedstring = jObject.ToString();
             savedstring = savedstring.Substring(0, savedstring.Length - 3);
-            savedstring = savedstring + "," + Checkpoints;
+            savedstring = savedstring + "," + Checkpoints +"," + Boosts +"\n}";
             return savedstring;
         }
 
         private static string getdata()
         {
-            const int UDP_PORT = 11000;
+            //This function was basicaly written by ChatGPT because I dont understand this shit. 
             const int RECEIVE_TIMEOUT_MS = 100; // 0.1 seconds
 
             string message = string.Empty;
@@ -327,17 +468,18 @@ namespace WindowsFormsApp1
             try
             {
                 // Create UDP client and specify local port to listen on
-                udpClient = new UdpClient(UDP_PORT);
+                udpClient = new UdpClient(11000);
                 // Set the receive timeout
                 udpClient.Client.ReceiveTimeout = RECEIVE_TIMEOUT_MS;
                 // Create endpoint for the sender's IP address and port
-                remoteEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 0);
+                remoteEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 11000);
                 // Receive data from the UDP socket
                 byte[] receivedBytes = udpClient.Receive(ref remoteEndPoint);
                 // Convert received bytes to string
                 string receivedData = Encoding.ASCII.GetString(receivedBytes);
                 // Process received data (e.g., display it, save it to a file, etc.)
-                message = receivedData;
+                message = receivedData;          
+
             }
             catch (SocketException ex)
             {
@@ -371,7 +513,7 @@ namespace WindowsFormsApp1
             {
                 jObject = JObject.Parse(data);
             }
-            catch (JsonReaderException ex)
+            catch 
             {
                 return;
             }
@@ -383,10 +525,6 @@ namespace WindowsFormsApp1
             textBox8.Text = (string)jObject["shipWorldRotationEuler"]["x"];
             textBox9.Text = (string)jObject["shipWorldRotationEuler"]["y"];
             textBox10.Text = (string)jObject["shipWorldRotationEuler"]["z"];
-
-            //jObject.
-
-
         }
 
 

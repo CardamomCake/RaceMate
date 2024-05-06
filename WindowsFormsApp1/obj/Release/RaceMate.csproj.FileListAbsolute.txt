@@ -1,0 +1,14 @@
+C:\Users\Guardian\Code\CS\RaceMate\WindowsFormsApp1\bin\Release\RaceMate.exe.config
+C:\Users\Guardian\Code\CS\RaceMate\WindowsFormsApp1\bin\Release\RaceMate.exe
+C:\Users\Guardian\Code\CS\RaceMate\WindowsFormsApp1\bin\Release\RaceMate.pdb
+C:\Users\Guardian\Code\CS\RaceMate\WindowsFormsApp1\bin\Release\Newtonsoft.Json.xml
+C:\Users\Guardian\Code\CS\RaceMate\WindowsFormsApp1\bin\Release\System.Diagnostics.DiagnosticSource.xml
+C:\Users\Guardian\Code\CS\RaceMate\WindowsFormsApp1\obj\Release\RaceMate.csproj.AssemblyReference.cache
+C:\Users\Guardian\Code\CS\RaceMate\WindowsFormsApp1\obj\Release\WindowsFormsApp1.Form1.resources
+C:\Users\Guardian\Code\CS\RaceMate\WindowsFormsApp1\obj\Release\RaceMate.Properties.Resources.resources
+C:\Users\Guardian\Code\CS\RaceMate\WindowsFormsApp1\obj\Release\RaceMate.csproj.GenerateResource.cache
+C:\Users\Guardian\Code\CS\RaceMate\WindowsFormsApp1\obj\Release\RaceMate.csproj.CoreCompileInputs.cache
+C:\Users\Guardian\Code\CS\RaceMate\WindowsFormsApp1\obj\Release\RaceMate.csproj.Fody.CopyLocal.cache
+C:\Users\Guardian\Code\CS\RaceMate\WindowsFormsApp1\obj\Release\RaceMate.csproj.Up2Date
+C:\Users\Guardian\Code\CS\RaceMate\WindowsFormsApp1\obj\Release\RaceMate.exe
+C:\Users\Guardian\Code\CS\RaceMate\WindowsFormsApp1\obj\Release\RaceMate.pdb
