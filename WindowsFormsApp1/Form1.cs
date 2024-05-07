@@ -99,10 +99,10 @@ namespace WindowsFormsApp1
             string author = (string)jObject["author"];
             textBox4.Text = author;
 
-            if (!jObject.ContainsKey("checkpoints"))
-            {
-                return;
-            }
+            //if (!jObject.ContainsKey("checkpoints"))
+            //{
+            //    return;
+            //}
 
 
 
@@ -408,7 +408,7 @@ namespace WindowsFormsApp1
                     Checkpoints = Checkpoints + checkpoint;
                 }
             }
-            Checkpoints = Checkpoints.Substring(0, Checkpoints.Length - 1);
+            //Checkpoints = Checkpoints.Substring(0, Checkpoints.Length - 1);
             Checkpoints = Checkpoints + "\n  ]";
             
 
@@ -446,7 +446,7 @@ namespace WindowsFormsApp1
                     Boosts = Boosts + boost;
                 }
             }
-            Boosts = Boosts.Substring(0, Boosts.Length - 1);
+            //Boosts = Boosts.Substring(0, Boosts.Length - 1);
             Boosts = Boosts + "\n  ]";
 
 
