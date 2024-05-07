@@ -19,6 +19,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Timers;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Drawing.Imaging;
 
 
 
@@ -105,10 +106,11 @@ namespace WindowsFormsApp1
             //}
 
 
-
-            foreach (JObject checkpoint in checkpointsArray)
+            if (checkpointsArray != null) 
             {
-                string[] row = {
+                foreach (JObject checkpoint in checkpointsArray)
+                {
+                    string[] row = {
                                 "ChP",
                                 (string)checkpoint["type"],
                                 (string)checkpoint["position"]["x"],
@@ -119,20 +121,23 @@ namespace WindowsFormsApp1
                                 (string)checkpoint["rotation"]["z"]
                 };
 
-                for (int i = 0; i < row.Length; i++)
-                {
-                    if (row[i] == null)
+                    for (int i = 0; i < row.Length; i++)
                     {
-                        row[i] = "0";
+                        if (row[i] == null)
+                        {
+                            row[i] = "0";
+                        }
                     }
-                }
 
-                dataGridView1.Rows.Add(row);
+                    dataGridView1.Rows.Add(row);
+                }
             }
 
-            foreach (JObject boost in boostArray)
+            if (boostArray != null)
             {
-                string[] row = {
+                foreach (JObject boost in boostArray)
+                {
+                    string[] row = {
                                 "Bst",
                                 (string)boost["boostTrailLengthMeters"],
                                 (string)boost["position"]["x"],
@@ -143,15 +148,16 @@ namespace WindowsFormsApp1
                                 (string)boost["rotation"]["z"]
                 };
 
-                for (int i = 0; i < row.Length; i++)
-                {
-                    if (row[i] == null)
+                    for (int i = 0; i < row.Length; i++)
                     {
-                        row[i] = "0";
+                        if (row[i] == null)
+                        {
+                            row[i] = "0";
+                        }
                     }
-                }
 
-                dataGridView1.Rows.Add(row);
+                    dataGridView1.Rows.Add(row);
+                }
             }
 
             //foreach (JObject billboard in billboardArray)
@@ -413,7 +419,7 @@ namespace WindowsFormsApp1
             
 
 
-            String Boosts = "\n  \"modifiers\": [";
+            String Boosts = "\n  \"modifiers\": [ ";
 
 
             for (int i = 0; i < dataGridView1.RowCount - 1; i++)
@@ -446,7 +452,7 @@ namespace WindowsFormsApp1
                     Boosts = Boosts + boost;
                 }
             }
-            //Boosts = Boosts.Substring(0, Boosts.Length - 1);
+            Boosts = Boosts.Substring(0, Boosts.Length - 1);
             Boosts = Boosts + "\n  ]";
 
 
