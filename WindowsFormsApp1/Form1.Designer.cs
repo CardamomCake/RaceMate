@@ -131,8 +131,7 @@ namespace WindowsFormsApp1
             this.button7.TabIndex = 7;
             this.button7.Text = "Add new boost";
             this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button4_Click_1);
-
+            this.button7.Click += new System.EventHandler(this.button7_Click_1);
             // 
             // textBox1
             // 
@@ -294,7 +293,6 @@ namespace WindowsFormsApp1
             this.z_rot.MinimumWidth = 6;
             this.z_rot.Name = "z_rot";
             this.z_rot.Width = 65;
-
             // 
             // Form1
             // 
