@@ -20,6 +20,8 @@ using System.Net;
 using System.Timers;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Drawing.Imaging;
+using System.Drawing.Text;
+using System.Globalization;
 
 
 
@@ -46,6 +48,7 @@ namespace WindowsFormsApp1
 
         public Form1()
         {
+            
             InitializeComponent();
             this.Text = "RaceMate";
 
@@ -64,20 +67,25 @@ namespace WindowsFormsApp1
             textBox1.Text = "Race name";
             textBox4.Text = "Author name";
         }
-        //private void Form1_SizeChanged(object sender, EventArgs e)
-        //{
-        //    textBox5.Height =this.Height - 30; 
-        //    textBox1.Height = this.Height - 100; 
-        //}
-
-
+        
 
         // this button is for loading from clipboard
         private void button1_Click(object sender, EventArgs e)
         {
+            if (textBox3.Text != "")
+            {
+                DialogResult result = MessageBox.Show("There already is data loaded. Do you wish to overwrite it?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result != DialogResult.Yes)
+                {
+                    return;
+                }
+                
+            }
+
             dataGridView1.Rows.Clear();
             string clipboardstring = Clipboard.GetText();
-            textBox3.Text = clipboardstring;
+            
 
             JObject jObject = new JObject();
 
@@ -90,6 +98,7 @@ namespace WindowsFormsApp1
                 MessageBox.Show("Invalid JSON format.");
                 return;
             }
+            textBox3.Text = clipboardstring;
             JArray checkpointsArray = (JArray)jObject["checkpoints"];
             JArray boostArray = (JArray)jObject["modifiers"];
             JArray billboardArray = (JArray)jObject["billboards"];
@@ -159,31 +168,6 @@ namespace WindowsFormsApp1
                     dataGridView1.Rows.Add(row);
                 }
             }
-
-            //foreach (JObject billboard in billboardArray)
-            //{
-            //    string[] row = {
-            //                    "BlB",
-            //                    (string)billboard["type"],
-            //                    (string)billboard["position"]["x"],
-            //                    (string)billboard["position"]["y"],
-            //                    (string)billboard["position"]["z"],
-            //                    (string)billboard["rotation"]["x"],
-            //                    (string)billboard["rotation"]["y"],
-            //                    (string)billboard["rotation"]["z"]
-            //    };
-
-            //    for (int i = 0; i < row.Length; i++)
-            //    {
-            //        if (row[i] == null)
-            //        {
-            //            row[i] = "0";
-            //        }
-            //    }
-
-            //    dataGridView1.Rows.Add(row);
-            //}
-
         }
 
 
@@ -237,16 +221,18 @@ namespace WindowsFormsApp1
                 MessageBox.Show("No live location recorded, please check if game is running and that telemetry is enabled under integration in settings.");
                 return;
             }
+            (string x_string, string y_string, string z_string, string pitch_string, string yaw_string, string roll_string) = GetCoordinates();
+
 
             string[] newRow = {
                 "ChP",
                 "1",
-                textBox5.Text,
-                textBox6.Text,
-                textBox7.Text,
-                textBox8.Text,
-                textBox9.Text,
-                textBox10.Text};
+                x_string,
+                y_string,
+                z_string,
+                pitch_string,
+                yaw_string,
+                roll_string};
 
             dataGridView1.Rows.Add(newRow);
             
@@ -254,7 +240,7 @@ namespace WindowsFormsApp1
 
 
 
-        // This button is for adding a checkpoint
+        // This button is for adding a boost
         private void button7_Click_1(object sender, EventArgs e)
         {
             if (textBox3.Text == "")
@@ -268,16 +254,18 @@ namespace WindowsFormsApp1
                 MessageBox.Show("No live location recorded, please check if game is running and that telemetry is enabled under integration in settings.");
                 return;
             }
+            (string x_string, string y_string, string z_string, string pitch_string, string yaw_string, string roll_string) = GetCoordinates();
+
 
             string[] newRow = {
                 "Bst",
                 "3000",
-                textBox5.Text,
-                textBox6.Text,
-                textBox7.Text,
-                textBox8.Text,
-                textBox9.Text,
-                textBox10.Text};
+                x_string,
+                y_string,
+                z_string,
+                pitch_string,
+                yaw_string,
+                roll_string};
 
             dataGridView1.Rows.Add(newRow);
 
@@ -294,20 +282,22 @@ namespace WindowsFormsApp1
                 return;
             }
 
-            double x_pos = double.Parse(textBox5.Text);
-            double y_pos = double.Parse(textBox6.Text);
-            double z_pos = double.Parse(textBox7.Text);
+            (string x_string, string y_string, string z_string, string _pitch_string, string _yaw_string, string _roll_string) = GetCoordinates();
 
-            double dist = new double();
-            double smallest_dist = double.PositiveInfinity;
+            float x_pos = float.Parse(x_string);
+            float y_pos = float.Parse(y_string);
+            float z_pos = float.Parse(z_string);
+
+            float dist = new float();
+            float smallest_dist = float.PositiveInfinity;
             int smallest_i = 0;
             for (int i = 1; i < dataGridView1.RowCount-1; i++)
             {
-                double distx = double.Parse(dataGridView1.Rows[i].Cells[2].Value.ToString()) - x_pos;
-                double disty = double.Parse(dataGridView1.Rows[i].Cells[3].Value.ToString()) - y_pos;
-                double distz = double.Parse(dataGridView1.Rows[i].Cells[4].Value.ToString()) - z_pos;
+                float distx = float.Parse(dataGridView1.Rows[i].Cells[2].Value.ToString()) - x_pos;
+                float disty = float.Parse(dataGridView1.Rows[i].Cells[3].Value.ToString()) - y_pos;
+                float distz = float.Parse(dataGridView1.Rows[i].Cells[4].Value.ToString()) - z_pos;
 
-                dist = Math.Sqrt(distx*distx + disty * disty + distz * distz);
+                dist = (float)Math.Sqrt(distx*distx + disty * disty + distz * distz);
                 if (dist < smallest_dist)
                 {
                     smallest_dist = dist;
@@ -327,7 +317,14 @@ namespace WindowsFormsApp1
         private void button6_Click_1(object sender, EventArgs e)
         {
             DataGridViewSelectedRowCollection selectedRows = dataGridView1.SelectedRows;
+
             int[] selectedIndices = new int[dataGridView1.SelectedRows.Count];
+
+            if (selectedIndices.Count<int>() == 0)
+            {
+                MessageBox.Show("No rows selected, select a row by clicking on the leftmost empty cell of a row.");
+                return;
+            }
 
             foreach (DataGridViewRow row in selectedRows)
             {
@@ -371,8 +368,25 @@ namespace WindowsFormsApp1
             jObject.Remove("modifiers");
             savedString = rebuildJson(jObject, dataGridView1);
 
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.FileName = (textBox1.Text +".json");
+            string fileName = textBox1.Text;
+
+            // Use a StringBuilder to construct the cleaned file name
+            StringBuilder cleanedFileName = new StringBuilder();
+
+            foreach (char charicter in fileName)
+            {
+                if (!Path.GetInvalidFileNameChars().Contains(charicter))
+                {
+                    cleanedFileName.Append(charicter);
+                }
+            }
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                FileName = cleanedFileName.ToString(),
+                DefaultExt = "json",
+                Filter = "JSON files (*.json)|*.json"
+            };
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 File.WriteAllText(saveFileDialog.FileName, savedString);
@@ -464,80 +478,52 @@ namespace WindowsFormsApp1
 
         private static string getdata()
         {
-            //This function was basicaly written by ChatGPT because I dont understand this shit. 
-            const int RECEIVE_TIMEOUT_MS = 100; // 0.1 seconds
-
-            string message = string.Empty;
-
-            UdpClient udpClient = null;
-            IPEndPoint remoteEndPoint = null;
-            try
-            {
-                // Create UDP client and specify local port to listen on
-                udpClient = new UdpClient(11000);
-                // Set the receive timeout
-                udpClient.Client.ReceiveTimeout = RECEIVE_TIMEOUT_MS;
-                // Create endpoint for the sender's IP address and port
-                remoteEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 11000);
-                // Receive data from the UDP socket
-                byte[] receivedBytes = udpClient.Receive(ref remoteEndPoint);
-                // Convert received bytes to string
-                string receivedData = Encoding.ASCII.GetString(receivedBytes);
-                // Process received data (e.g., display it, save it to a file, etc.)
-                message = receivedData;          
-
-            }
-            catch (SocketException ex)
-            {
-                // Handle socket exception (e.g., timeout, connection reset, etc.)
-                if (ex.SocketErrorCode == SocketError.TimedOut)
-                {
-                    message = ("Receive operation timed out.");
-                }
-                else
-                {
-                    message = ("Socket exception: " + ex.Message);
-                }
-            }
-            finally
-            {
-                if (udpClient != null)
-                    udpClient.Close();
-            }
-
-            return message;
+            string mostRecentData = Program.Receiver.MostRecentData;
+            return mostRecentData;
+            
         }
+        
 
 
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            string data = getdata();
-            JObject jObject = new JObject();
+            string x; string y; string z; string pitch; string yaw; string roll;
 
             try
             {
-                jObject = JObject.Parse(data);
+                (x,y,z,pitch,yaw,roll) = GetCoordinates();
             }
             catch 
             {
                 return;
             }
 
-            textBox5.Text = (string)jObject["shipWorldPosition"]["x"];
-            textBox6.Text = (string)jObject["shipWorldPosition"]["y"];
-            textBox7.Text = (string)jObject["shipWorldPosition"]["z"];
+            textBox5.Text = x;
+            textBox6.Text = y;
+            textBox7.Text = z;
 
-            textBox8.Text = (string)jObject["shipWorldRotationEuler"]["x"];
-            textBox9.Text = (string)jObject["shipWorldRotationEuler"]["y"];
-            textBox10.Text = (string)jObject["shipWorldRotationEuler"]["z"];
+            textBox8.Text = pitch;
+            textBox9.Text = yaw;
+            textBox10.Text = roll;
         }
 
+        private static (string, string, string, string, string, string) GetCoordinates()
+        {
+            var jObject = JObject.Parse(Program.Receiver.MostRecentData);
+            return (
+                (string)jObject["shipWorldPosition"]["x"],
+                (string)jObject["shipWorldPosition"]["y"],
+                (string)jObject["shipWorldPosition"]["z"],
 
+                (string)jObject["shipWorldRotationEuler"]["x"],
+                (string)jObject["shipWorldRotationEuler"]["y"],
+                (string)jObject["shipWorldRotationEuler"]["z"]
+            );
+        }
     }
 
-
-
 }
+
 
 

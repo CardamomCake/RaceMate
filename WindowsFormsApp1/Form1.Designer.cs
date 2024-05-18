@@ -158,7 +158,7 @@ namespace WindowsFormsApp1
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(140, 330);
+            this.textBox5.Location = new System.Drawing.Point(170, 330);
             this.textBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(100, 22);
@@ -166,7 +166,7 @@ namespace WindowsFormsApp1
             // 
             // textBox6
             // 
-            this.textBox6.Location = new System.Drawing.Point(250, 330);
+            this.textBox6.Location = new System.Drawing.Point(280, 330);
             this.textBox6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(100, 22);
@@ -174,7 +174,7 @@ namespace WindowsFormsApp1
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(360, 330);
+            this.textBox7.Location = new System.Drawing.Point(390, 330);
             this.textBox7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(100, 22);
@@ -182,7 +182,7 @@ namespace WindowsFormsApp1
             // 
             // textBox8
             // 
-            this.textBox8.Location = new System.Drawing.Point(470, 330);
+            this.textBox8.Location = new System.Drawing.Point(500, 330);
             this.textBox8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(100, 22);
@@ -190,7 +190,7 @@ namespace WindowsFormsApp1
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(580, 330);
+            this.textBox9.Location = new System.Drawing.Point(610, 330);
             this.textBox9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(100, 22);
@@ -198,7 +198,7 @@ namespace WindowsFormsApp1
             //
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(690, 330);
+            this.textBox10.Location = new System.Drawing.Point(720, 330);
             this.textBox10.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(100, 22);
@@ -206,7 +206,7 @@ namespace WindowsFormsApp1
 
             
             this.label.AutoSize = true;
-            this.label.Location = new System.Drawing.Point(40, 333); // Adjust the location as needed
+            this.label.Location = new System.Drawing.Point(70, 333); // Adjust the location as needed
             this.label.Name = "Label";
             //this.label.ReadOnly = true;
             this.label.Size = new System.Drawing.Size(110, 20); // Adjust the size as needed
@@ -247,49 +247,49 @@ namespace WindowsFormsApp1
             // 
             // value
             // 
-            this.value.HeaderText = "value";
+            this.value.HeaderText = "Value";
             this.value.MinimumWidth = 6;
             this.value.Name = "value";
             this.value.Width = 65;
             // 
             // x_pos
             // 
-            this.x_pos.HeaderText = "xpos";
+            this.x_pos.HeaderText = "X";
             this.x_pos.MinimumWidth = 6;
             this.x_pos.Name = "x_pos";
             this.x_pos.Width = 65;
             // 
             // y_pos
             // 
-            this.y_pos.HeaderText = "ypos";
+            this.y_pos.HeaderText = "Y";
             this.y_pos.MinimumWidth = 6;
             this.y_pos.Name = "y_pos";
             this.y_pos.Width = 65;
             // 
             // z_pos
             // 
-            this.z_pos.HeaderText = "zpos";
+            this.z_pos.HeaderText = "Z";
             this.z_pos.MinimumWidth = 6;
             this.z_pos.Name = "z_pos";
             this.z_pos.Width = 65;
             // 
             // x_rot
             // 
-            this.x_rot.HeaderText = "xrot";
+            this.x_rot.HeaderText = "Pitch";
             this.x_rot.MinimumWidth = 6;
             this.x_rot.Name = "x_rot";
             this.x_rot.Width = 65;
             // 
             // y_rot
             // 
-            this.y_rot.HeaderText = "yrot";
+            this.y_rot.HeaderText = "Yaw";
             this.y_rot.MinimumWidth = 6;
             this.y_rot.Name = "y_rot";
             this.y_rot.Width = 65;
             // 
             // z_rot
             // 
-            this.z_rot.HeaderText = "zrot";
+            this.z_rot.HeaderText = "Roll";
             this.z_rot.MinimumWidth = 6;
             this.z_rot.Name = "z_rot";
             this.z_rot.Width = 65;
