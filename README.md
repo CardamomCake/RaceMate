@@ -8,13 +8,13 @@ This app requires, and or recomends you to enable a few settings in Fly Dangerou
 2. **Borderless Window Mode:** Change your game from full screen to borderless window mode. This allows the app to overlay on top of the game.
 3. It is also recommended that you turn your clipboard history on to minimize your chances of losing your edited race.
 
-You do not need to install the app to use RaceMate; it is a standalone executable. The first time you run the executable Windows will give a warning due to the fact that it is the app is unsigned. Windows may also give you a firewall warning due to attempting to pull tellemetry from Fly Dangerous. 
+You do not need to install the app to use RaceMate, it is a standalone executable. The first time you run the executable Windows will give a warning due to the fact that it is the app is unsigned. Windows may also give you a firewall warning due to attempting to pull tellemetry from Fly Dangerous. 
 
 ---
 
 **How to use RaceMate:**
 1. **Start the game** and check if you have the required settings enabled (telemetry, borderless window, and clipboard history).
-2. **Load a level** that you want to edit or create a race in, and **copy the world data** to your clipboard using the "Copy location to clipboard" setting in the pause menu. (For new races, it is recommended to use free roam game mode as a starting point.)
+2. **Load a level** that you want to edit or create a race in, and **copy the world data** to your clipboard using the "Copy location to clipboard" setting in the pause menu. (For new races, it is recommended to use the **free roam** game mode as a starting point.)
 3. **Launch RaceMate** and click the "Load from clipboard" button to load your level data into RaceMate.
 4. **Fly around in the game** and add checkpoints at your ship's location to your race by clicking the "Add checkpoint" button. You can see and edit the coordinates of those checkpoints in the table in RaceMate. (The checkpoints will not show up immediately in the game.)
 5. Once you are happy with the checkpoints, convert one of them to the finish line by altering the "Value" of that checkpoint from 1 to 2 in the table in RaceMate.
