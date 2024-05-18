@@ -105,9 +105,12 @@ namespace WindowsFormsApp1
 
 
             string name = (string)jObject["name"];
-            textBox1.Text = name;
+            if (name != "")
+                textBox1.Text = name;
+            
             string author = (string)jObject["author"];
-            textBox4.Text = author;
+            if (author != "")
+                textBox4.Text = author;
 
             //if (!jObject.ContainsKey("checkpoints"))
             //{
@@ -396,7 +399,7 @@ namespace WindowsFormsApp1
 
         private string rebuildJson(JObject jObject, DataGridView dataGridView1)
         {
-            String Checkpoints = "\n  \"checkpoints\": [";
+            String Checkpoints = "\n  \"checkpoints\": [ ";
 
             for (int i = 0; i < dataGridView1.RowCount - 1; i++)
             {
@@ -429,6 +432,7 @@ namespace WindowsFormsApp1
                 }
             }
             //Checkpoints = Checkpoints.Substring(0, Checkpoints.Length - 1);
+            Checkpoints = Checkpoints.Substring(0, Checkpoints.Length - 1);
             Checkpoints = Checkpoints + "\n  ]";
             
 
