@@ -54,7 +54,7 @@
     <ApplicationIcon>logo3.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>WindowsFormsApp1.Program</StartupObject>
+    <StartupObject>RaceMate.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
