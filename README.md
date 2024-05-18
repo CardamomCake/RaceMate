@@ -4,13 +4,10 @@
 This app requires you to enable two settings in Fly Dangerous:
 1. **Telemetry:** Turn this on under the **Integrations** panel in the **Options** menu. This allows RaceMate to pull your coordinates from the game.
 2. **Borderless Window Mode:** Change your game from full screen to borderless window mode. This allows the app to overlay on top of the game. 
-
 It is also recommended that you turn your clipboard history on to minimize your chances of losing your edited race.
-
 You do not need to install the app to use RaceMate; it is a standalone executable. Running the executable will result in two warnings from Windows:
 - The first warning is because the application is unsigned.
 - The second warning is a firewall warning due to the application attempting to read the telemetry data of Fly Dangerous.
-
 You will only need to agree to these warnings the first time you run the app.
 
 
