@@ -1,16 +1,14 @@
 
-**This is a third-party app designed to help you create your own custom races for the game Fly Dangerous.**
+**RaceMate is a third-party app designed to help you create your own custom races for the game Fly Dangerous.**
 
 ---
 
-This app requires you to enable two settings in Fly Dangerous:
+This app requires, and or recomends you to enable a few settings in Fly Dangerous:
 1. **Telemetry:** Turn this on under the **Integrations** panel in the **Options** menu. This allows RaceMate to pull your coordinates from the game.
 2. **Borderless Window Mode:** Change your game from full screen to borderless window mode. This allows the app to overlay on top of the game.
 3. It is also recommended that you turn your clipboard history on to minimize your chances of losing your edited race.
 
-You do not need to install the app to use RaceMate; it is a standalone executable. The first time you run the executable Windows will give you two warnings:
-- The first warning is because the application is unsigned.
-- The second warning is a firewall warning due to the application attempting to read the telemetry data of Fly Dangerous.
+You do not need to install the app to use RaceMate; it is a standalone executable. The first time you run the executable Windows will give a warning due to the fact that it is the app is unsigned. Windows may also give you a firewall warning due to attempting to pull tellemetry from Fly Dangerous. 
 
 ---
 
@@ -27,6 +25,7 @@ You do not need to install the app to use RaceMate; it is a standalone executabl
 ---
 
 **Tips and Tricks:**
+- **Be carefull with overwriting the gamedata in RaceMate** using the "copy form clipboard" button. Fly dangerous does not know about the checkpoints added in RaceMate before they are loaded into the game. Overwriten data **WILL BE LOST FOREVER**. 
 - The starting position of your race is the location where you clicked the "Copy location to clipboard" button in the Fly Dangerous pause menu. To edit this location, load your race, go to the desired spot, and click that button again. To save this new location in RaceMate, load it back into RaceMate with the "Copy from clipboard" button.
 - For more exciting races, add boosters to your game. These will appear in the same table, labeled "Bst" instead of "ChP." You can edit the length of the boost tunnel under the "Value" tab of the table.
 - To make your checkpoints look cleaner, set the pitch and roll of the checkpoints to zero. This will ensure the checkpoints are not tilted.
