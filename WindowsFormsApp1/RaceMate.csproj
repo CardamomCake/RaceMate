@@ -251,6 +251,7 @@
   <ItemGroup>
     <Content Include="logo3.ico" />
     <Content Include="Race-Mate-Logo.ico" />
+    <EmbeddedResource Include="Resources\thumbnail.png" />
     <None Include="Resources\logo3.ico" />
     <None Include="Resources\Icon1.ico" />
     <EmbeddedResource Include="RaceMateLogo.ico" />
