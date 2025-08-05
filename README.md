@@ -8,7 +8,7 @@ This app requires, and or recomends you to enable a few settings in Fly Dangerou
 2. **Borderless Window Mode:** Change your game from full screen to borderless window mode. This allows the app to overlay on top of the game.
 3. It is also recommended that you turn your clipboard history on to minimize your chances of losing your edited race.
 
-You do not need to install the app to use RaceMate, it is a standalone executable. The first time you run the executable Windows will give a warning due to the fact that it is the app is unsigned. Windows may also give you a firewall warning due to attempting to pull tellemetry from Fly Dangerous. 
+You do not need to install the app to use RaceMate, it is a standalone executable. The first time you run the executable Windows will give a warning due to the fact that it is the app is unsigned.
 
 ---
 
