@@ -534,36 +534,27 @@ namespace RaceMate
             saveDialog.Title = "Save level file";
             saveDialog.DefaultExt = "zip";
             saveDialog.FileName = cleanedFileName.ToString();
-
-            
+            string resourceName = "RaceMate.Resources.file.zip";
 
             if (saveDialog.ShowDialog() == DialogResult.OK)
             {
-                using (FileStream zipToOpen = new FileStream(saveDialog.FileName, FileMode.Create))
-                using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Create))
+                string destinationFilePath = saveDialog.FileName;
+                using (Stream resourceStream = typeof(Form1).Assembly.GetManifestResourceStream(resourceName))
+                {
+                    using (FileStream fileStream = new FileStream(destinationFilePath, FileMode.Create, FileAccess.Write))
+                    {
+                        resourceStream.CopyTo(fileStream);
+                    }
+                }
+                using (ZipArchive archive = ZipFile.Open(destinationFilePath, ZipArchiveMode.Update))
                 {
                     ZipArchiveEntry jsonEntry = archive.CreateEntry("level.json");
                     using (StreamWriter writer = new StreamWriter(jsonEntry.Open()))
                     {
                         writer.Write(savedString);
                     }
-
-                    string resourceName = "RaceMate.Resources.thumbnail.png";
-
-                    using (Stream resourceStream = typeof(Form1).Assembly.GetManifestResourceStream(resourceName))
-                    {
-                        if (resourceStream != null)
-                        {
-                            ZipArchiveEntry imageEntry = archive.CreateEntry("thumbnail.png");
-                            using (Stream entryStream = imageEntry.Open())
-                            {
-                                resourceStream.CopyTo(entryStream);
-                            }
-                        }
-                    }
                 }
             }
-
         }
 
 
